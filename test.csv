@@ -1,3 +1,4 @@
+reference,timestamp,amount,currency,description
 10000008,2023-02-11T17:00:00Z,-10000,CZK,najem
 10000009,2023-03-11T13:00:01Z,1002,CZK,Pavel
 100000010,2023-04-11T13:00:01Z,-150,CZK,Amazon
