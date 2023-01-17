@@ -2,7 +2,6 @@
   <head>
     <title>Transactions</title>
     <link href="/static/style.css" rel="stylesheet">
-    <script src="/static/index.js" type="module"></script>
   </head>
   <body>
     <h1>Transactions</h1>
@@ -10,14 +9,15 @@
     <table>
         <tr>
             <td>Date: {{ transaction.timestamp}}</td>
-            <td>Amount: {{ transaction.amount}}</td>
+            <td>
+                {% if transaction.amount == max_amount %}
+                    <b>{{ transaction.amount }}</b>
+                {% else %}
+                    {{ transaction.amount }}
+                {% endif %}</td>
             <td>{{ transaction.currency}}</td>
             <td>Description: {{transaction.description}}</td>
-            {% if transaction.amount == max_amount %}
-                <strong>{{ transaction.amount }}</strong>
-            {% else %}
-                {{ transaction.amount }}
-            {% endif %}
+
         </tr>
     </table>
     {% endfor %}

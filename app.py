@@ -56,14 +56,16 @@ def display_transactions():
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM TransactionsTable ORDER BY timestamp DESC")
     results = cursor.fetchall()
-    max_amount = max(transaction["amount"] for transaction in results)
+
+    # select the max amount
+    max_amount = cursor.execute("SELECT MAX(amount) FROM TransactionsTable")
 
     # close the cursor and connection
     cursor.close()
     connection.close()
 
     # pass the results to the template
-    return render_template('transactions.html', transactions=results)
+    return render_template('transactions.html', transactions=results, max_amount=max_amount)
 
 
 if __name__ == '__main__':
