@@ -41,6 +41,7 @@ def display_transactions():
         # fetch the results
         results = cursor.fetchall()
 
+
         # close the cursor and connection
         cursor.close()
         connection.close()
@@ -55,6 +56,7 @@ def display_transactions():
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM TransactionsTable ORDER BY timestamp DESC")
     results = cursor.fetchall()
+    max_amount = max(transaction["amount"] for transaction in results)
 
     # close the cursor and connection
     cursor.close()
