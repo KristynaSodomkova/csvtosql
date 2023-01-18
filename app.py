@@ -58,8 +58,8 @@ def display_transactions():
     results = cursor.fetchall()
 
     # select the max amount
-    max_amount = cursor.execute("SELECT * FROM TransactionsTable").fetchone()
-    max_amount = (max_amount['amount'])
+    max_amount = cursor.execute("SELECT MAX(amount) FROM TransactionsTable").fetchone()
+    max_amount = max_amount['MAX(amount)']
 
     # close the cursor and connection
     cursor.close()
