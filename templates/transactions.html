@@ -11,7 +11,7 @@
             <td>Date: {{ transaction.timestamp}}</td>
             <td>
                 {% if transaction.amount == max_amount %}
-                    <b>{{ transaction.amount }}</b>
+                    <strong>{{ transaction.amount }}</strong>
                 {% else %}
                     {{ transaction.amount }}
                 {% endif %}</td>

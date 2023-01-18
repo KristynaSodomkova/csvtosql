@@ -5,7 +5,7 @@ import csv
 app = Flask(__name__)
 
 
-# app.config['DEBUG'] = True
+app.config['DEBUG'] = True
 # make the data from tuple into dict
 def dict_factory(cursor, row):
     d = {}
@@ -58,7 +58,8 @@ def display_transactions():
     results = cursor.fetchall()
 
     # select the max amount
-    max_amount = cursor.execute("SELECT MAX(amount) FROM TransactionsTable")
+    max_amount = cursor.execute("SELECT * FROM TransactionsTable").fetchone()
+    max_amount = (max_amount['amount'])
 
     # close the cursor and connection
     cursor.close()
