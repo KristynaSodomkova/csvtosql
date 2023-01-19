@@ -1,11 +1,23 @@
 import sqlite3
 from flask import Flask, request, render_template
-import csv
 
 app = Flask(__name__)
 
-
 app.config['DEBUG'] = True
+
+
+# get connection to db:
+def get_db_connection():
+    connection = sqlite3.connect("banking.db")
+    connection.row_factory = dict_factory
+    cursor = connection.cursor()
+    return connection, cursor
+
+def close_db_connection(connection, cursor):
+    cursor.close()
+    connection.close()
+
+
 # make the data from tuple into dict
 def dict_factory(cursor, row):
     d = {}
@@ -21,9 +33,7 @@ def display_transactions():
         file = request.files['file']
 
         # connect to the database
-        connection = sqlite3.connect("banking.db")
-        connection.row_factory = dict_factory
-        cursor = connection.cursor()
+        connection, cursor = get_db_connection()
 
         # read the csv file and insert the data into the database, print how many records were added
         records = 0
@@ -41,19 +51,15 @@ def display_transactions():
         # fetch the results
         results = cursor.fetchall()
 
-
         # close the cursor and connection
-        cursor.close()
-        connection.close()
+        close_db_connection(cursor, connection)
 
         # return a response indicating that the file has been successfully uploaded
         print("\n{} Records Transferred".format(records))
         return render_template('transactions.html', transactions=results)
 
     # select all data from the table and fetch them into results
-    connection = sqlite3.connect("banking.db")
-    connection.row_factory = dict_factory
-    cursor = connection.cursor()
+    connection, cursor = get_db_connection()
     cursor.execute("SELECT * FROM TransactionsTable ORDER BY timestamp DESC")
     results = cursor.fetchall()
 
@@ -71,3 +77,6 @@ def display_transactions():
 
 if __name__ == '__main__':
     app.run()
+
+
+#to upload file: curl -X POST -F file=@test.csv http://localhost:5000/transactions
